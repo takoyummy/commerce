@@ -1,3 +1,5 @@
+# 🛒 쇼핑몰 시스템
+- 일반적인 커머스 시스템의 기본적인 기능들을 구현합니다. 
 ## 마일스톤
 
 ### 1주차: 설계 및 Mock API 구현
@@ -26,19 +28,24 @@
 ### 잔액 충전 및 조회 시퀀스 다이어그램
 ```mermaid
 sequenceDiagram
-participant User
-participant AuthService
-participant BalanceService
-participant BalanceRepository
+    participant User
+    participant AuthService
+    participant BalanceService
+    participant PaymentService
+    participant BalanceRepository
 
     User ->> AuthService: 로그인 요청
     AuthService -->> User: 로그인 성공 (토큰 발급)
 
     User ->> BalanceService: 잔액 충전 요청 (토큰 포함)
-    
-    alt 충전 실패 (네트워크 오류 등)
-        BalanceService -->> User: 충전 실패 (Exception)
+
+    alt 충전 실패 (PaymentService 오류)
+        BalanceService ->> PaymentService: 결제 요청
+        PaymentService -->> BalanceService: 충전 실패 (Exception)
+        BalanceService -->> User: 충전 실패 (결제 오류)
     else 충전 성공
+        BalanceService ->> PaymentService: 결제 요청
+        PaymentService -->> BalanceService: 결제 성공
         BalanceService ->> BalanceRepository: 사용자 잔액 업데이트
         BalanceRepository -->> BalanceService: 업데이트 완료
         BalanceService -->> User: 잔액 충전 완료
@@ -46,14 +53,9 @@ participant BalanceRepository
 
     User ->> BalanceService: 잔액 조회 요청 (토큰 포함)
     BalanceService ->> BalanceRepository: 사용자 잔액 조회
+    BalanceRepository -->> BalanceService: 현재 잔액 반환
+    BalanceService -->> User: 잔액 반환
 
-    alt 잔액 조회 실패
-        BalanceRepository -->> BalanceService: 조회 실패 (Exception)
-        BalanceService -->> User: 잔액 조회 실패
-    else 잔액 조회 성공
-        BalanceRepository -->> BalanceService: 현재 잔액 반환
-        BalanceService -->> User: 잔액 반환
-    end
 ```
 
 
