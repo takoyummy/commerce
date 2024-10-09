@@ -10,6 +10,7 @@
 ### 2주차: 잔액 충전/조회 API 및 상품 조회 API 구현
 - **잔액 충전/조회 API**: 잔액 충전 및 조회 기능 구현.
 - **상품 조회 API**: 상품 정보 및 잔여 수량 조회 기능 구현.
+- **장바구니 기능 구현**: 장바구니에 상품 추가, 삭제 기능 구현.
 - **단위 테스트 작성**: 두 API에 대한 테스트 작성.
 
 ### 3주차: 주문/결제 API, 인기 상품 조회 API 구현
@@ -123,6 +124,7 @@ sequenceDiagram
     participant BalanceService
     participant PaymentService
     participant InventoryService
+    participant ExternalDataPlatform
 
     User ->> AuthService: 로그인 요청
     AuthService -->> User: 로그인 성공 (토큰 발급)
@@ -146,7 +148,11 @@ sequenceDiagram
         BalanceService -->> OrderService: 잔액 차감 완료
         OrderService ->> InventoryService: 재고 차감 요청
         InventoryService -->> OrderService: 재고 차감 완료
+        OrderService ->> ExternalDataPlatform: 주문 정보 전송 요청
+        ExternalDataPlatform -->> OrderService: 주문 정보 전송 완료
+        
         OrderService -->> User: 주문 완료
+
     end
 
 
