@@ -171,3 +171,43 @@ sequenceDiagram
     ExternalDataPlatform -->> ProductService: 인기 상품 목록 반환
     ProductService -->> User: 인기 상품 목록 반환
 ```
+
+------
+
+## ERD 설계 
+
+erd 링크 [https://dbdiagram.io/d/6706abb897a66db9a36e4291]
+
+![erd](https://github.com/user-attachments/assets/96179643-5b1f-472e-b38c-9e8715981b46)
+
+------
+
+## Mock API 구현
+
+swagger로 대략적인 mock api를 문서화하였습니다. 헤더에 멤버 토큰 정보를 넣는 기능을 각 api에 추가할 예정입니다. 
+
+http://localhost:8080/swagger-ui/index.html 에서 확인 가능합니다.
+
+-------
+
+## 그 외 정보
+
+- **개발 환경**: Java 21, Spring Boot, JPA, H2 or MySQL, JUnit5, Mockito
+- **프로젝트 구조**: 대략적인 패키지 구조는 다음과 같습니다. 
+```
+└── main
+    └── java
+        └── com.practice.commerce
+            ├── api
+            │   ├── controller         // API 컨트롤러 레이어, 각종 HTTP 요청을 처리
+            │   ├── dto                // API 요청(Request)과 응답(Response)을 위한 DTO 클래스
+            │   └── usecase            // 비즈니스 로직을 처리하는 유스케이스 레이어
+            ├── common
+            │   ├── config             // 전역 설정 클래스
+            │   ├── dto                // 공통으로 사용하는 DTO 클래스
+            │   ├── exception          // 예외 처리 관련 클래스
+            │   └── logger             // 로그 관련 클래스
+            ├── domain                 // 엔티티 및 도메인 관련 클래스를 하위에 작성할 예정입니다. 
+            └── infrastructure         // 데이터베이스 및 외부 연동 관련 인프라스트럭처
+
+```
