@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(description = "잔액 충전 요청을 위한 데이터 전송 객체")
 public class BalanceRequest {
-	@Schema(description = "사용자 ID", example = "1", required = true)
-	private Long userId;
 	@Schema(description = "충전 또는 소진할 금액", example = "100.00", required = true)
 	private Double amount;
 }
