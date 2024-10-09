@@ -171,3 +171,11 @@ sequenceDiagram
     ExternalDataPlatform -->> ProductService: 인기 상품 목록 반환
     ProductService -->> User: 인기 상품 목록 반환
 ```
+
+------
+
+## ERD 설계 
+
+erd 링크 [https://dbdiagram.io/d/6706abb897a66db9a36e4291]
+
+![erd](https://github.com/user-attachments/assets/96179643-5b1f-472e-b38c-9e8715981b46)
