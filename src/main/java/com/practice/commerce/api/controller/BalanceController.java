@@ -20,13 +20,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class BalanceController {
 
 	@PostMapping("/charge")
-	@Operation(summary = "잔액 충전", description = "사용자의 잔액을 입력한 금액만큼 충전합니다.")
+	@Operation(summary = "잔액 충전", description = "사용자의 잔액을 입력한 금액만큼 충전합니다. - 헤더에 멤버 토큰 추가 예정")
 	public ResponseMessage chargeBalance(@RequestBody BalanceRequest balanceRequest) {
 		return ResponseMessage.ok();
 	}
 
 	@GetMapping("/check/{userId}")
-	@Operation(summary = "잔액 조회", description = "사용자의 잔액을 조회합니다.")
+	@Operation(summary = "잔액 조회", description = "사용자의 잔액을 조회합니다. - 헤더에 멤버 토큰 추가 예정")
 	public ResponseMessage checkBalance(@PathVariable Long userId) {
 
 		BalanceResponse balanceResponse = new BalanceResponse(userId, 150.00);
