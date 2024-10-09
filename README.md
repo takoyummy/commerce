@@ -164,11 +164,10 @@ sequenceDiagram
 sequenceDiagram
     participant User
     participant ProductService
-    participant OrderRepository
-
+    participant ExternalDataPlatform
 
     User ->> ProductService: 인기 상품 조회 요청
-    ProductService ->> OrderRepository: 최근 3일간 판매량이 많은 상품 5개 조회
-    OrderRepository -->> ProductService: 인기 상품 목록 반환
+    ProductService ->> ExternalDataPlatform: 최근 3일간 판매량이 많은 상품 5개 조회 요청
+    ExternalDataPlatform -->> ProductService: 인기 상품 목록 반환
     ProductService -->> User: 인기 상품 목록 반환
 ```
