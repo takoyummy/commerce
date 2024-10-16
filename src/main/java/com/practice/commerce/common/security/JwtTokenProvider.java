@@ -21,8 +21,8 @@ public class JwtTokenProvider {
 	@Value("${jwt.expiration}")
 	private long accessTokenExpirationTime;
 
-	public String createAccessToken(String memberId) {
-		Claims claims = Jwts.claims().setSubject(memberId);
+	public String createAccessToken(String userId) {
+		Claims claims = Jwts.claims().setSubject(userId);
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + accessTokenExpirationTime);
 
@@ -34,7 +34,7 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String getMemberIdFromToken(String token) {
+	public String getUserIdFromToken(String token) {
 		return Jwts.parser()
 			.setSigningKey(secretKey)
 			.parseClaimsJws(token)
