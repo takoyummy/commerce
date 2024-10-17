@@ -8,7 +8,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -21,6 +23,8 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 		NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		HttpServletRequest servletRequest = (HttpServletRequest) webRequest.getNativeRequest();
+		String userId = (String) servletRequest.getAttribute("userId");
+		log.debug("Resolved userId: {}", userId); // 로그 추가
 		return Long.valueOf((String) servletRequest.getAttribute("userId"));
 	}
 
