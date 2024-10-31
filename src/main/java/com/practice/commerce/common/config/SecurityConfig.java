@@ -30,7 +30,7 @@ public class SecurityConfig {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			)
 			.authorizeHttpRequests(authz -> authz
-				.requestMatchers("/api/auth/**", "/api/product/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // 허용 경로 설정
+				.requestMatchers("/api/v1/auth/**", "/api/v1/product/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // 허용 경로 설정
 				.anyRequest().authenticated() // 그 외 요청은 인증 필요
 			)
 			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

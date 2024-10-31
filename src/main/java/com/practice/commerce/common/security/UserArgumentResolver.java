@@ -8,11 +8,15 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
+
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -22,10 +26,13 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 		NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		HttpServletRequest servletRequest = (HttpServletRequest) webRequest.getNativeRequest();
-		String userId = (String) servletRequest.getAttribute("userId");
-		log.debug("Resolved userId: {}", userId); // 로그 추가
-		return Long.valueOf((String) servletRequest.getAttribute("userId"));
+		String token = webRequest.getHeader("Authorization");
+		if (token == null || !token.startsWith("Bearer ")) {
+			throw new IllegalArgumentException("Authorization header is missing or invalid");
+		}
+
+		token = token.substring(7);
+		return jwtTokenProvider.getUserIdFromToken(token);
 	}
 
 }

@@ -6,15 +6,15 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
-	private final String memberId;
+	private final Long memberId;
 
-	public JwtAuthenticationToken(String memberId) {
+	public JwtAuthenticationToken(Long memberId) {
 		super(null);
 		this.memberId = memberId;
 		setAuthenticated(true); // 권한이 없는 상태에서 인증된 것으로 설정 (주의: 필요시 false로 설정)
 	}
 
-	public JwtAuthenticationToken(String memberId, Collection<? extends GrantedAuthority> authorities) {
+	public JwtAuthenticationToken(Long memberId, Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.memberId = memberId;
 		setAuthenticated(true); // 권한이 있는 상태에서 인증된 것으로 설정

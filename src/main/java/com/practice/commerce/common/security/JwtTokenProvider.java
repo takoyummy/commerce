@@ -38,12 +38,12 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String getUserIdFromToken(String token) {
-		return Jwts.parser()
+	public Long getUserIdFromToken(String token) {
+		return Long.valueOf(Jwts.parser()
 			.setSigningKey(secretKey)
 			.parseClaimsJws(token)
 			.getBody()
-			.getSubject();
+			.getSubject());
 	}
 
 	public boolean validateToken(String token) {
