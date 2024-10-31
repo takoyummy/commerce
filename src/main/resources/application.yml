@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: commerce-application
+
+jwt:
+  secret: dKteRoKMWDVaHXbUjjV8dGlDdn0ntuvliEhreJMLMkcg4XQxLjnxufld6ywQgjRxHKIjFaYrWPNvVxQYoCBS8w==
+  expiration: 3600000
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.practice.commerce: DEBUG
