@@ -14,6 +14,6 @@ public class BalanceResponse {
 	private Long userId;
 
 	@Schema(description = "현재 잔액", example = "150.00")
-	private Double currentBalance;
+	private Long currentBalance;
 
 }
