@@ -39,18 +39,21 @@ public class OrderUseCase {
 	private final ExternalDataPlatformAdapter externalDataPlatformAdapter;
 	private final RedisManager redisManager;
 
-	@Transactional
 	public OrderResponse createOrder(Long userId, OrderRequest orderRequest) {
+		return redisManager.executeWithLock(RedisKeyPrefix.BALANCE_KEY.withSuffix(userId.toString()),
+			() -> executeTransactionalOrderCreation(userId, orderRequest));
+	}
+
+	@Transactional
+	public OrderResponse executeTransactionalOrderCreation(Long userId, OrderRequest orderRequest) {
 		List<OrderItem> orderItems = createOrderItems(orderRequest);
 		long totalPrice = calculateTotalPrice(orderItems);
 
-		return redisManager.executeWithLock(RedisKeyPrefix.BALANCE_KEY.withSuffix(userId.toString()), () -> {
-			deductUserBalance(userId, totalPrice);
-			Order savedOrder = saveOrder(userId, totalPrice, orderItems);
-			recordBalanceTransaction(userId, totalPrice, TransactionType.DEDUCT, savedOrder.getOrderId());
-			sendOrderToExternalPlatform(savedOrder);
-			return createOrderResponse(savedOrder, orderItems);
-		});
+		deductUserBalance(userId, totalPrice);
+		Order savedOrder = saveOrder(userId, totalPrice, orderItems);
+		recordBalanceTransaction(userId, totalPrice, TransactionType.DEDUCT, savedOrder.getOrderId());
+		sendOrderToExternalPlatform(savedOrder);
+		return createOrderResponse(savedOrder, orderItems);
 	}
 
 	private List<OrderItem> createOrderItems(OrderRequest orderRequest) {
